@@ -1,0 +1,7 @@
+id="urn:uuid:99999999-9999-9999-9999-999999999999"
+kind="http://occiware.org/infrastructure#compute"
+attributes.occi.compute.state="inactive"
+attributes.occi.compute.architecture="i386"
+location="none"
+
+patateConfigured="ImaConfigured"

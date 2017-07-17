@@ -1,0 +1,8 @@
+ID: ${id}
+Kind: ${kind}
+Attributes:
+    State: ${attributes.occi.compute.state}
+    Architecture: ${attributes.occi.compute.architecture}
+Location: ${location}
+
+PatateConfigured: ${patateConfigured}
