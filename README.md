@@ -5,7 +5,7 @@
 Generates files from a given template by swapping its variables with values
 found on a given martserver instance (or in a config file containing default
 values). You must at least specify a valid -t parameter (template) and a
-valid URL as the -r parameter (MartServer resource).
+valid URL as the -r parameter (MartServer resource)/ a valid config file.
 
 ## Usage
 
@@ -20,6 +20,18 @@ chmod u+x ./MartBTG.sh
 ```bash
 ./MartBTG.sh -t <PATH_TO_TEMPLATE> -r '<RESOURCE_URI>' [OPTION]...
 ```
+
+### Template syntax
+
+Variables are to be written javascript-like, between curly braces with a dollar sign before: ${<YOUR_VARIABLE_NAME>}, with <YOUR_VARIABLE_NAME> being for example "attributes.occi.compute.state".
+
+See example/template.txt for more examples.
+
+### Config file syntax
+
+Default values in the config file are to be written after the variable name and an equal sign, between double-quotes (no escaping implemented, don't use double-quotes in your default string values) like so: attributes.occi.compute.state="active" .
+
+See example/config.txt for more examples.
 
 ### Typical usage:
 
@@ -71,7 +83,7 @@ Click on the "EDIT" button, erase all of the text area content, and copy/paste t
 Then, to test the script so that it uses the information you just entered, simply execute the following command (and enter the default password, "1234"):
 
 ```bash
-./MartBTG.sh -t example/template.txt -r 'http://localhost:8080/?category=compute&title=webserver' -c example/config -u admin -p
+./MartBTG.sh -t example/template.txt -r 'http://localhost:8080/?category=compute&title=webserver' -c example/config.txt -u admin -p
 ```
 
 You will be able to see the result in the command line, and compare it to the one of example/output.txt. If both are perfectly similar, then, this test is a success!

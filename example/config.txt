@@ -4,4 +4,4 @@ attributes.occi.compute.state="inactive"
 attributes.occi.compute.architecture="i386"
 location="none"
 
-patateConfigured="ImaConfigured"
+configVar="I'm set only in the config file"

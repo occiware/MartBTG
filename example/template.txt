@@ -5,4 +5,4 @@ Attributes:
     Architecture: ${attributes.occi.compute.architecture}
 Location: ${location}
 
-PatateConfigured: ${patateConfigured}
+Variable from config only: ${configVar}

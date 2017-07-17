@@ -25,7 +25,7 @@ dependencies=( jq curl )
 # HISTORY:
 #
 # * 2017/07/14 - v1.0.0  - First fully functional version
-# * 2017/07/17 - v1.0.1  - Add documentation & Additionnal checks
+# * 2017/07/17 - v1.0.1  - Add documentation, additionnal checks, fix bugs
 #
 # ##################################################
 
@@ -106,7 +106,7 @@ function mainScript() {
         else
             # If the config file exists, associate the variable with its default
             # value in the config file. If no value is found, set to "null".
-            value=$(grep -oP "${variable}=\"\K[^\"]+" "$config"||true)
+            value=$(grep -oP "^${variable}=\"\K[^\"]+" "$config"||true)
             if [[ !  -z  $value  ]]; then
                 variablesMap[${variable}]=$value
             else
@@ -126,7 +126,7 @@ function mainScript() {
 
         # If no value for the template variable is found in either the config or
         # resource file, die.
-        if [ -z ${variablesMap[${variable}]} ] || [ ${variablesMap[${variable}]} == "null" ]; then
+        if [ -z "${variablesMap[${variable}]}" ] || [ "${variablesMap[${variable}]}" == "null" ]; then
             die "The template variable \${${variable}} does not have a corresponding value in either the config or the resource file."
         fi
 
