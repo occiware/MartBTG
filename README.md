@@ -7,6 +7,12 @@ found on a given martserver instance (or in a config file containing default
 values). You must at least specify a valid -t parameter (template) and a
 valid URL as the -r parameter (MartServer resource)/ a valid config file.
 
+The main benefit this script brings is that rather than using a heavy framework
+written in a language that is not natively available on every GNU/Linux system,
+is that it can be easily deployed in Docker containers, for example,
+**where size does matter**. It doesn't pack tons of features: it just does one
+job, but does it right.
+
 ## Usage
 
 > **Note**: Before executing the script, please make sure it has execution rights, if not, set them with:

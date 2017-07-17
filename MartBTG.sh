@@ -241,7 +241,7 @@ ${bold}Description:${reset}
 Generates files from a given template by swapping its variables with values
 found on a given martserver instance (or in a config file containing default
 values). You must at least specify a valid -t parameter (template) and a
-valid URL as the -r parameter (MartServer resource).
+valid URL as the -r parameter (MartServer resource)/ a valid config file.
 
 ${bold}Typical usage:${reset}
 
