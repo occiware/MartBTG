@@ -16,9 +16,10 @@ MartBTG attempts to provide the simplest, lightest way to answer this need, that
 Because MartBTG has no other dependency than bash, it can be used with *any* OCCI implementation, not only MartServer, meaning that it is a good vector of evangelization of OCCIware, just like OCCInterface.
 
 Beyond MartBTG, answers that would be deeper integrated with the OCCIware stack :
-(1. pure bash : MartBTG)
-2. OCCIware generators at runtime, client-side : at least package them, and wrap their existing code with a call to MartServer
-3. OCCIware generators at runtime, server-side : package them in Mart and expose them as a dedicated REST API
+
+1. OCCIware generators at runtime, client-side : at least package them, and wrap their existing code with a call to MartServer
+
+2. OCCIware generators at runtime, server-side : package them in Mart and expose them as a dedicated REST API
 
 ## Usage
 
