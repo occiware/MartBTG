@@ -36,13 +36,23 @@ chmod u+x ./MartBTG.sh
 
 ### Template syntax
 
-Variables are to be written javascript-like, between curly braces with a dollar sign before: ${<YOUR_VARIABLE_NAME>}, with <YOUR_VARIABLE_NAME> being for example "attributes.occi.compute.state".
+Variables are to be written javascript-like, between curly braces with a dollar sign before:
+
+```bash
+${<YOUR_VARIABLE_NAME>}
+```
+
+With **<YOUR_VARIABLE_NAME>** being for example **"attributes.occi.compute.state"**.
 
 See example/template.txt for more examples.
 
 ### Config file syntax
 
-Default values in the config file are to be written after the variable name and an equal sign, between double-quotes (no escaping implemented, don't use double-quotes in your default string values) like so: attributes.occi.compute.state="active" .
+Default values in the config file are to be written after the variable name and an equal sign, between double-quotes (no escaping implemented, don't use double-quotes in your default string values) like so:
+
+```bash
+attributes.occi.compute.state="active"
+```
 
 See example/config.txt for more examples.
 
