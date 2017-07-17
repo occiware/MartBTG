@@ -7,11 +7,18 @@ found on a given martserver instance (or in a config file containing default
 values). You must at least specify a valid -t parameter (template) and a
 valid URL as the -r parameter (MartServer resource)/ a valid config file.
 
-The main benefit this script brings is that rather than using a heavy framework
-written in a language that is not natively available on every GNU/Linux system,
-is that it can be easily deployed in Docker containers, for example,
-**where size does matter**. It doesn't pack tons of features: it just does one
-job, but does it right.
+## Rationale
+
+The easiest way to manage Cloud components is through configuration files, and in OCCIware the easiest way for adopters to let their custom extension's models have an impact at runtime has always been deemed to develop a (model to text) generator that transform them to such configuration files. However, until now there was no way to achieve that at Runtime, that is using MartServer-distributed models, since generators are only available in the OCCIware Studio.
+
+MartBTG attempts to provide the simplest, lightest way to answer this need, that anybody can use - a smallest common denominator.
+
+Because MartBTG has no other dependency than bash, it can be used with *any* OCCI implementation, not only MartServer, meaning that it is a good vector of evangelization of OCCIware, just like OCCInterface.
+
+Beyond MartBTG, answers that would be deeper integrated with the OCCIware stack :
+(1. pure bash : MartBTG)
+2. OCCIware generators at runtime, client-side : at least package them, and wrap their existing code with a call to MartServer
+3. OCCIware generators at runtime, server-side : package them in Mart and expose them as a dedicated REST API
 
 ## Usage
 
