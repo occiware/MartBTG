@@ -37,10 +37,10 @@ chmod u+x ./MartBTG.sh
 
 ### Template syntax
 
-Variables are to be written javascript-like, between curly braces with a dollar sign before:
+Variables are to be written javascript-like, between two dollar signs:
 
 ```bash
-${<YOUR_VARIABLE_NAME>}
+$$<YOUR_VARIABLE_NAME>$$
 ```
 
 With **<YOUR_VARIABLE_NAME>** being for example **"attributes.occi.compute.state"**.
@@ -75,7 +75,7 @@ See example/config.txt for more examples.
 + --force           Skip all user interaction.
 + -q, --quiet       Quiet (no output)
 + -l, --log         Print log to file
-+ -s, --strict      Exit script with null variables.  i.e 'set -o nounset'
++ -s, --strict      Exit script if no associated value is found for a variable
 + -v, --verbose     Output more information. (Items echoed to 'verbose')
 + -d, --debug       Runs script in BASH debug mode (set -x)
 + -h, --help        Display this help and exit
@@ -111,6 +111,8 @@ Then, to test the script so that it uses the information you just entered, simpl
 ```
 
 You will be able to see the result in the command line, and compare it to the one of example/output.txt. If both are perfectly similar, then, this test is a success!
+
+> Note: The warning about the variable that is not set is normal, since it has no value set in either the config or resource file.
 
 ## Dependencies
 

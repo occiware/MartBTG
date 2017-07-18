@@ -1,8 +1,0 @@
-ID: urn:uuid:deca3150-3500-4803-83ad-9fcdb2bec56c
-Kind: http://schemas.ogf.org/occi/infrastructure#compute
-Attributes:
-    State: active
-    Architecture: x64
-Location: /compute/deca3150-3500-4803-83ad-9fcdb2bec56c
-
-Variable from config only: I'm set only in the config file

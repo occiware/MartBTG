@@ -1,8 +1,9 @@
-ID: ${id}
-Kind: ${kind}
+ID: $$id$$
+Kind: $$kind$$
 Attributes:
-    State: ${attributes.occi.compute.state}
-    Architecture: ${attributes.occi.compute.architecture}
-Location: ${location}
+    State: $$attributes.occi.compute.state$$
+    Architecture: $$attributes.occi.compute.architecture$$
+Location: $$location$$
 
-Variable from config only: ${configVar}
+Variable from config only: $$configVar$$
+Variable that is set nowhere: $$noVal$$

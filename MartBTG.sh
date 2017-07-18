@@ -12,7 +12,7 @@
 # Boilerplate code from Nate Landau:
 # https://github.com/natelandau/shell-scripts
 #
-version="1.0.1"              # Sets version variable
+version="1.0.2"              # Sets version variable
 #
 # CURRENTLY ONLY SUPPORTS APT FOR AUTOMATIC
 # DEPENDENCY INSTALLATION.
@@ -26,6 +26,7 @@ dependencies=( jq curl )
 #
 # * 2017/07/14 - v1.0.0  - First fully functional version
 # * 2017/07/17 - v1.0.1  - Add documentation, additionnal checks, fix bugs
+# * 2017/07/18 - v1.0.2  - Change variable declaration syntax
 #
 # ##################################################
 
@@ -65,15 +66,15 @@ function mainScript() {
 
         # Check if $username AND $PASS are set together, or not set at all
         # If only one is defined, die
-        if [ -z ${username+x} ] || [ -z ${PASS+x} ]; then
-            if [ -z ${username+x} ] && [ -z ${PASS+x} ]; then
+        if [ ! -z ${username+x} ] || [ ! -z ${PASS+x} ]; then
+            if [ ! -z ${username+x} ] && [ ! -z ${PASS+x} ]; then
                 # Fetch config from the ressource and save it to tmpResource
                 verbose $(curl -X GET "$resource" -H 'accept: application/json' -u "$username":"$PASS" -o "$tmpResource" 2>&1)
             else
-                die "You forgot to either set the username or the password."
+                die "You tried to set the username or the password without the other."
             fi
         else
-            verbose "No username and password provided: falling back to defaults"
+            info "No username and password provided: falling back to defaults"
             verbose $(curl -X GET "$resource" -H 'accept: application/json' -u "$defaultUsername":"$defaultPASS" -o "$tmpResource" 2>&1)
         fi
 
@@ -86,11 +87,11 @@ function mainScript() {
         # Flatten the json and savee the result in tmpResourceFlattened
         jq '. as $in | reduce leaf_paths as $path ({}; . + { ($path | map(tostring) | join(".")): $in | getpath($path) })' $tmpResource > $tmpResourceFlattened
     else
-        verbose "No Resource URI has been provided: trying to use the config file only."
+        info "No Resource URI has been provided: trying to use the config file only."
     fi
 
     # Get all variables in template (anyhting between "${" and "}")
-    variables=($(grep -oP '\$\{\K[^\}]+' "$template"))
+    variables=($(grep -oP '\$\$\K[^\$\$]+' "$template"))
 
     # Declare associative array (hashmap for bash)
     declare -A variablesMap
@@ -125,25 +126,34 @@ function mainScript() {
         fi
 
         # If no value for the template variable is found in either the config or
-        # resource file, die.
+        # resource file, take action to warn or exit. Else, replace it.
         if [ -z "${variablesMap[${variable}]}" ] || [ "${variablesMap[${variable}]}" == "null" ]; then
-            die "The template variable \${${variable}} does not have a corresponding value in either the config or the resource file."
+
+            if ${strict}; then
+                # Exit on unset variable
+                die "Strict mode activated: the template variable \$\$${variable}\$\$ does not have a corresponding value in either the config or the resource file."
+            else
+                # Warn on unset variable
+                warning "The template variable \$\$${variable}\$\$ does not have a corresponding value in either the config or the resource file. Not replacing it."
+            fi
+        else
+            # Replace in temporary output file all references to the variable by the matching value
+            search="\$\$${variable}\$\$"
+            replace="${variablesMap[${variable}]}"
+            searchEscaped=$(sed 's/[^^]/[&]/g; s/\^/\\^/g' <<<"$search")
+            replaceEscaped=$(sed 's/[&/\]/\\&/g' <<<"$replace")
+
+            sed -i "s/$searchEscaped/$replaceEscaped/g" $tmpOutput
         fi
-
-        # Replace in temporary output file all references to the variable by the matching value
-        search="\${${variable}}"
-        replace="${variablesMap[${variable}]}"
-        searchEscaped=$(sed 's/[^^]/[&]/g; s/\^/\\^/g' <<<"$search")
-        replaceEscaped=$(sed 's/[&/\]/\\&/g' <<<"$replace")
-
-        sed -i "s/$searchEscaped/$replaceEscaped/g" $tmpOutput
     done
 
     # If the output file is not set, copy the temporary output file's contents
     # into the definitive one, else use standard output
     if [ ! -z ${output+x} ]; then
         cp $tmpOutput $output
+        success "-------- Successully written to file ${output} --------"
     else
+        success "-------- ${scriptName} Output: --------"
         cat $tmpOutput
     fi
 }
@@ -258,7 +268,7 @@ ${bold}Options:${reset}
     --force           Skip all user interaction.
     -q, --quiet       Quiet (no output)
     -l, --log         Print log to file
-    -s, --strict      Exit script with null variables.  i.e 'set -o nounset'
+    -s, --strict      Exit script if no associated value is found for a variable
     -v, --verbose     Output more information. (Items echoed to 'verbose')
     -d, --debug       Runs script in BASH debug mode (set -x)
     -h, --help        Display this help and exit
@@ -417,9 +427,6 @@ set -o errexit
 
 # Run in debug mode, if set
 if ${debug}; then set -x ; fi
-
-# Exit on empty variable
-if ${strict}; then set -o nounset ; fi
 
 # Bash will remember & return the highest exitcode in a chain of pipes.
 # This way you can catch the error in case mysqldump fails in `mysqldump |gzip`, for example.
