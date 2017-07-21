@@ -120,7 +120,7 @@ function mainScript() {
         if [ -f "$tmpResourceFlattened" ]
         then
             value=$(jq -r ".\"${variable}\"" "$tmpResourceFlattened")
-            if [ $value != "null" ]; then
+            if [ "${value}" != "null" ]; then
                 variablesMap[${variable}]=$value
             fi
         fi
