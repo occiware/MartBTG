@@ -171,10 +171,19 @@ function installDeps() {
 }
 
 function aptInstallDeps {
+    # For docker containers, we generally don't have sudo natively available
+    if hasProg sudo ; then
+        sudoCmd="sudo";
+    else
+        sudoCmd=""
+    fi
+
+    verbose $(${sudoCmd} apt-get update)
+
     for dependency in "${dependencies[@]}"
     do
         if [ $(dpkg-query -W -f='${Status}' ${dependency} 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-          verbose $(sudo apt-get install ${dependency})
+          verbose $(${sudoCmd} apt-get install ${dependency})
         fi
     done
 }
