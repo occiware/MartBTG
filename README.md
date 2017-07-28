@@ -114,6 +114,10 @@ You will be able to see the result in the command line, and compare it to the on
 
 > Note: The warning about the variable that is not set is normal, since it has no value set in either the config or resource file.
 
+### Use case
+
+MartBTG is used in the [LinkedData demonstration](https://github.com/occiware/occiware-ozwillo/) as a component of the ozwillo-ozenergy Docker image, to fetch the configuration for this image. You will find how it is invoked in the [Start.sh file of the image](https://github.com/occiware/occiware-ozwillo/blob/master/docker/ozwillo-ozenergy/start.sh), and the corresponding template and config files in the [ozwillo-ozenergy repository](https://github.com/ozwillo/ozwillo-ozenergy/tree/master/oz-energy/config). 
+
 ## Dependencies
 
 > **Important Note: CURRENTLY ONLY SUPPORTS APT FOR AUTOMATIC DEPENDENCY INSTALLATION.**
