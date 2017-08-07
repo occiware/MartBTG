@@ -151,7 +151,7 @@ function mainScript() {
     # into the definitive one, else use standard output
     if [ ! -z ${output+x} ]; then
         cp $tmpOutput $output
-        success "-------- Successully written to file ${output} --------"
+        success "-------- Successully written to file: ${output} --------"
     else
         success "-------- ${scriptName} Output: --------"
         cat $tmpOutput
